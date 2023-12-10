@@ -167,7 +167,7 @@
     <label for="taxableIncome">Enter taxable income:</label>
     <input type="number" id="taxableIncome">
 
-    <button onclick="calculateIncomeTax()" id="calculateButton">Calculate</button>
+    <button id="calculateButton">Calculate</button>
 
     <div id="result"></div>
     <br>
@@ -182,13 +182,13 @@
         <tbody></tbody>
     </table>
 
-    <button id="clearButton" onclick="showConfirmationModal()">Clear All Data</button>
+    <button id="clearButton">Clear All Data</button>
 
     <div id="confirmationModal">
         <div class="modalContent">
             <p>Are you sure you want to clear all data?</p>
-            <button id="confirmButton" onclick="clearRecordedData()">Yes, Clear</button>
-            <button id="cancelButton" onclick="hideConfirmationModal()">Cancel</button>
+            <button id="confirmButton">Yes, Clear</button>
+            <button id="cancelButton">Cancel</button>
         </div>
     </div>
 
@@ -261,6 +261,11 @@
             hideConfirmationModal();
         }
     </script>
-
+    <script>
+        document.getElementById('calculateButton').addEventListener('click', calculateIncomeTax);
+        document.getElementById('clearButton').addEventListener('click', showConfirmationModal);
+        document.getElementById('confirmButton').addEventListener('click', clearRecordedData);
+        document.getElementById('cancelButton').addEventListener('click', hideConfirmationModal);
+    </script>
 </body>
 </html>
