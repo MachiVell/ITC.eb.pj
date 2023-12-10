@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITC Website Sample Pay</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        background-color: #CBC3E3;
+    }
+
+    h1 {
+        color: #80669d;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #80669d;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    li {
+        float: left;
+        display: inline;
+        margin: 10px;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        background-color: #a881af;
+    }
+
+    .title {
+        float: left;
+        color: black;
+        padding: 24px 26px;
+        text-decoration: none;
+        background-color: #80669d;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    input {
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #80669d;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #a881af;
+    }
+
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #80669d;
+        color: white;
+    }
+
+    tfoot {
+        font-weight: bold;
+    }
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="indext.html" class="title"><bold>Home</bold></a>
+        <ul>
+            <li><a href="Conversion.html" class="button">Conversion</a></li>
+            <li><a href="IncomeTaxC.html" class="button">Income Tax Calculator</a></li>
+            <li><a href="Factorial.html" class="button">Factorial</a></li>
+            <li><a href="SamplePay.html" class="button">Simple Payroll</a></li>
+        </ul>
+    </div>
+
+    <h1>Payroll Program</h1>
+
+    <input type="text" id="employeeName" placeholder="Employee Name">
+    <input type="number" id="daysWorked" placeholder="Days Worked">
+    <input type="number" id="dailyRate" placeholder="Daily Rate">
+    <input type="number" id="deductionAmount" placeholder="Deduction Amount">
+
+    <button onclick="addEmployee()">Add Employee</button>
+    <button onclick="openDeleteModal()">Delete Employee</button>
+    <button onclick="openClearAllModal()">Clear All</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Employee Name</th>
+                <th>Days Worked</th>
+                <th>Daily Rate</th>
+                <th>Gross Pay</th>
+                <th>Deduction Amount</th>
+                <th>Net Pay</th>
+            </tr>
+        </thead>
+        <tbody id="payrollTableBody"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5"></td>
+                <td>Total Net Pay:</td>
+                <td id="totalNetPay">0</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <p>What Number ("No.") to delete?</p>
+            <input type="number" id="deleteEmployeeNo" placeholder="Employee No.">
+            <button onclick="deleteEmployeeConfirmed()">Delete</button>
+        </div>
+    </div>
+
+    <div id="clearAllModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeClearAllModal()">&times;</span>
+            <p>Are you sure you want to clear all employees?</p>
+            <button onclick="clearAllConfirmed()">Yes</button>
+        </div>
+    </div>
+
+    <script>
+        var currentLocation = window.location.href;
+        var navLinks = document.querySelectorAll('a');
+        navLinks.forEach(function (link) {
+            if (link.href === currentLocation) {
+                link.classList.add('active');
+            }
+        });
+
+        let payrollData = [];
+        let lineCounter = 1;
+
+        function addEmployee() {
+            const employeeName = document.getElementById('employeeName').value;
+            const daysWorked = parseFloat(document.getElementById('daysWorked').value);
+            const dailyRate = parseFloat(document.getElementById('dailyRate').value);
+            const deductionAmount = parseFloat(document.getElementById('deductionAmount').value);
+
+            const grossPay = daysWorked * dailyRate;
+            const netPay = grossPay - deductionAmount;
+
+            const employeeData = {
+                line: lineCounter,
+                employeeName: employeeName,
+                daysWorked: daysWorked,
+                dailyRate: dailyRate,
+                grossPay: grossPay,
+                deductionAmount: deductionAmount,
+                netPay: netPay
+            };
+
+            payrollData.push(employeeData);
+
+            const newRow = `
+                <tr>
+                    <td>${lineCounter}</td>
+                    <td>${employeeName}</td>
+                    <td>${daysWorked}</td>
+                    <td>${dailyRate}</td>
+                    <td>${grossPay.toFixed(2)}</td>
+                    <td>${deductionAmount.toFixed(2)}</td>
+                    <td>${netPay.toFixed(2)}</td>
+                </tr>
+            `;
+
+            document.getElementById('payrollTableBody').innerHTML += newRow;
+
+            updateTotalNetPay();
+            lineCounter++;
+        }
+
+        function openDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function deleteEmployeeConfirmed() {
+            const employeeNoToDelete = parseInt(document.getElementById('deleteEmployeeNo').value);
+            const indexToDelete = payrollData.findIndex(item => item.line === employeeNoToDelete);
+
+            if (indexToDelete !== -1) {
+                payrollData.splice(indexToDelete, 1);
+                updateTable();
+                updateTotalNetPay();
+                closeDeleteModal();
+            } else {
+                alert('Employee No. not found.');
+            }
+        }
+
+        function openClearAllModal() {
+            document.getElementById('clearAllModal').style.display = 'block';
+        }
+
+        function closeClearAllModal() {
+            document.getElementById('clearAllModal').style.display = 'none';
+        }
+
+        function clearAllConfirmed() {
+            document.getElementById('payrollTableBody').innerHTML = '';
+            payrollData = [];
+            lineCounter = 1;
+            updateTotalNetPay();
+            closeClearAllModal();
+        }
+
+        function updateTotalNetPay() {
+            const totalNetPay = payrollData.reduce((total, item) => total + item.netPay, 0);
+            document.getElementById('totalNetPay').textContent = totalNetPay.toFixed(2);
+        }
+
+        function updateTable() {
+            document.getElementById('payrollTableBody').innerHTML = '';
+
+            for (let i = 0; i < payrollData.length; i++) {
+                payrollData[i].line = i + 1; // Update the line number
+
+                const newRow = `
+                    <tr>
+                        <td>${payrollData[i].line}</td>
+                        <td>${payrollData[i].employeeName}</td>
+                        <td>${payrollData[i].daysWorked}</td>
+                        <td>${payrollData[i].dailyRate}</td>
+                        <td>${payrollData[i].grossPay.toFixed(2)}</td>
+                        <td>${payrollData[i].deductionAmount.toFixed(2)}</td>
+                        <td>${payrollData[i].netPay.toFixed(2)}</td>
+                    </tr>
+                `;
+
+                document.getElementById('payrollTableBody').innerHTML += newRow;
+            }
+        }
+    </script>
+
+</body>
+</html>

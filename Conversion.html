@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITC Website Conversion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #CBC3E3;
+        }
+
+        h1 {
+            color: #80669d;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #80669d;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        li {
+            float: left;
+            display: inline;
+            margin: 10px;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #a881af;
+        }
+
+        .title {
+            float: left;
+            color: black;
+            padding: 24px 26px;
+            text-decoration: none;
+            background-color: #80669d;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            width: 25%;
+            box-sizing: border-box;
+            border: 1px solid #80669d;
+            border-radius: 4px;
+        }
+
+        select {
+            padding: 8px;
+            margin-top: 10px;
+            width: 20%;
+            box-sizing: border-box;
+            border: 1px solid #80669d;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px;
+            margin-top: 10px;
+            background-color: #80669d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a881af;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="indext.html" class="title"><bold>Home</bold></a>
+        <ul>
+            <li><a href="Conversion.html" class="button">Conversion</a></li>
+            <li><a href="IncomeTaxC.html" class="button">Income Tax Calculator</a></li>
+            <li><a href="Factorial.html" class="button">Factorial</a></li>
+            <li><a href="SamplePay.html" class="button">Simple Payroll</a></li>
+        </ul>
+    </div>
+
+    <h1>Unit Converter</h1>
+    <p>Converting: Celsius to Fahrenheit, Fahrenheit to Celsius, Meters to Feet, Feet to Meters</p>
+
+    <label for="valueInput">Enter value:</label>
+    <input type="number" id="valueInput">
+
+    <label for="conversionType">Choose conversion:</label>
+    <select id="conversionType">
+        <option value="FtC">Fahrenheit to Celsius</option>
+        <option value="CtF">Celsius to Fahrenheit</option>
+        <option value="MtF">Meters to Feet</option>
+        <option value="FtM">Feet to Meters</option>
+    </select>
+
+    <button onclick="convert()">Convert</button>
+    <div id="result"></div>
+
+    <script>
+        var currentLocation = window.location.href;
+        var navLinks = document.querySelectorAll('a');
+        navLinks.forEach(function (link) {
+            if (link.href === currentLocation) {
+                link.classList.add('active');
+            }
+        });
+
+        function convert() {
+            var value = parseFloat(document.getElementById('valueInput').value);
+            var conversionType = document.getElementById('conversionType').value;
+
+            switch (conversionType) {
+                case 'FtC':
+                    var celsius = (value - 32) * (5 / 9);
+                    displayResult(`${value}°F is ${celsius.toFixed(2)}°C`);
+                    break;
+                case 'CtF':
+                    var fahrenheit = (value * (9 / 5)) + 32;
+                    displayResult(`${value}°C is ${fahrenheit.toFixed(2)}°F`);
+                    break;
+                case 'MtF':
+                    var feet = value * 3.28084;
+                    displayResult(`${value} meters is ${feet.toFixed(2)} feet`);
+                    break;
+                case 'FtM':
+                    var meters = value / 3.28084;
+                    displayResult(`${value} feet is ${meters.toFixed(2)} meters`);
+                    break;
+                default:
+                    displayResult('Invalid conversion type');
+            }
+        }
+
+        function displayResult(message) {
+            document.getElementById('result').innerHTML = `<div>${message}</div>`;
+        }
+    </script>
+
+</body>
+</html>

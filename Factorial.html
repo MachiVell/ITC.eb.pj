@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITC Website FSA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #CBC3E3;
+        }
+
+        h1 {
+            color: #80669d;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #80669d;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        li {
+            float: left;
+            display: inline;
+            margin: 10px;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #a881af;
+        }
+
+        .title {
+            float: left;
+            color: black;
+            padding: 24px 26px;
+            text-decoration: none;
+            background-color: #80669d;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #80669d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #a881af;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+     <a href="indext.html" class="title"><bold>Home</bold></a>
+     <ul>
+         <li><a href="Conversion.html" class="button">Conversion</a></li>
+         <li><a href="IncomeTaxC.html" class="button">Income Tax Calculator</a></li>
+         <li><a href="Factorial.html" class="button">Factorial</a></li>
+         <li><a href="SamplePay.html" class="button">Simple Payroll</a></li>
+     </ul>
+    </div>
+
+    <header>
+        <h1>Factoring, Sum, and Average</h1>
+    </header>
+
+    <main>
+        <label for="numberInput">Enter an integer (n):</label>
+        <input type="number" id="numberInput">
+
+        <button onclick="performOperations()">Perform Operations</button>
+
+        <div id="result"></div>
+    </main>
+
+    <script>
+        var currentLocation = window.location.href;
+        var navLinks = document.querySelectorAll('a');
+        navLinks.forEach(function(link) {
+            if (link.href === currentLocation) {
+                link.classList.add('active');
+            }
+        });
+        function performOperations() {
+            var n = parseInt(document.getElementById('numberInput').value);
+
+            var factorial = 1;
+            var i = 1;
+            while (i <= n) {
+                factorial *= i;
+                i++;
+            }
+        
+            var sum = 0;
+            var j = 1;
+            do {
+                sum += j;
+                j++;
+            } while (j <= n);
+
+            var average = 0;
+            for (var k = 1; k <= n; k++) {
+                average += k;
+            }
+            average /= n;
+
+            var resultMessage = `
+                <p>Factorial of ${n}: ${factorial}</p>
+                <p>Sum of the first ${n} numbers: ${sum}</p>
+                <p>Average of the first ${n} numbers: ${average.toFixed(2)}</p>
+            `;
+
+            document.getElementById('result').innerHTML = resultMessage;
+        }
+    </script>
+
+</body>
+</html>
