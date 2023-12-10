@@ -156,9 +156,9 @@
     <input type="number" id="dailyRate" placeholder="Daily Rate">
     <input type="number" id="deductionAmount" placeholder="Deduction Amount">
 
-    <button onclick="addEmployee()">Add Employee</button>
-    <button onclick="openDeleteModal()">Delete Employee</button>
-    <button onclick="openClearAllModal()">Clear All</button>
+    <button id="addEmployeeButton">Add Employee</button>
+    <button id="deleteEmployeeButton">Delete Employee</button>
+    <button id="clearAllButton">Clear All</button>
 
     <table>
         <thead>
@@ -184,18 +184,18 @@
 
     <div id="deleteModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <span class="close close-delete-modal">&times;</span>
             <p>What Number ("No.") to delete?</p>
             <input type="number" id="deleteEmployeeNo" placeholder="Employee No.">
-            <button onclick="deleteEmployeeConfirmed()">Delete</button>
+            <button id="deleteConfirmedButton">Delete</button>
         </div>
     </div>
 
     <div id="clearAllModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeClearAllModal()">&times;</span>
+            <span class="close close-clear-all-modal">&times;</span>
             <p>Are you sure you want to clear all employees?</p>
-            <button onclick="clearAllConfirmed()">Yes</button>
+            <button id="clearAllConfirmedButton">Yes</button>
         </div>
     </div>
 
@@ -315,6 +315,14 @@
             }
         }
     </script>
-
+    <script>
+        document.getElementById('addEmployeeButton').addEventListener('click', addEmployee);
+        document.getElementById('deleteEmployeeButton').addEventListener('click', openDeleteModal);
+        document.getElementById('clearAllButton').addEventListener('click', openClearAllModal);
+        document.getElementById('deleteConfirmedButton').addEventListener('click', deleteEmployeeConfirmed);
+        document.getElementById('clearAllConfirmedButton').addEventListener('click', clearAllConfirmed);
+        document.querySelector('.close-delete-modal').addEventListener('click', closeDeleteModal);
+        document.querySelector('.close-clear-all-modal').addEventListener('click', closeClearAllModal);
+    </script>
 </body>
 </html>
